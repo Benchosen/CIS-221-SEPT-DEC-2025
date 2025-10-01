@@ -1,0 +1,47 @@
+Perfect, Ben — now that you’ve opened the MySQL command prompt and logged in as root, here’s exactly what to type next to set up your Fashion Store inventory database:
+
+🧱 Step-by-Step SQL Commands
+1. Create the database
+CREATE DATABASE fashion_store;
+USE fashion_store;
+
+
+2. Create the inventory table
+CREATE TABLE inventory (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  item_name VARCHAR(100),
+  category VARCHAR(50),
+  price DECIMAL(10,2),
+  quantity_bought INT,
+  quantity_sold INT DEFAULT 0
+);
+
+
+3. Insert sample items
+INSERT INTO inventory (item_name, category, price, quantity_bought)
+VALUES 
+('Denim Jacket', 'Men', 45.00, 100),
+('Floral Dress', 'Women', 35.00, 80),
+('Kids T-shirt', 'Kids', 15.00, 120),
+('Leather Handbag', 'Accessories', 60.00, 50);
+
+
+4. View inventory status
+SELECT 
+  item_name,
+  category,
+  price,
+  quantity_bought,
+  quantity_sold,
+  (quantity_bought - quantity_sold) AS in_stock,
+  (quantity_sold * price) AS revenue
+FROM inventory;
+
+
+
+🧮 Optional: Update sales manually
+UPDATE inventory SET quantity_sold = quantity_sold + 1 WHERE item_name = 'Denim Jacket';
+
+
+
+Once you’ve run these, your database is live and tracking inventory, sales, and revenue. Let me know if you want to export this as a .sql file or connect it to your PHP site — I’ll walk you through it.

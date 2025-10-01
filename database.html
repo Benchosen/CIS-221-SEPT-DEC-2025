@@ -1,0 +1,90 @@
+
+inventory.php
+<?php
+$connection = new mysqli("localhost", "root", "", "fashion_store");
+
+if ($connection->connect_error) {
+  die("Connection failed: " . $connection->connect_error);
+}
+
+$result = $connection->query("SELECT *, (quantity_bought - quantity_sold) AS in_stock, (quantity_sold * price) AS revenue FROM inventory");
+?>
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Inventory Tracker</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f9f9f9;
+      color: #333;
+    }
+    header {
+      background: linear-gradient(to right, #ff6f61, #ffb347);
+      color: white;
+      text-align: center;
+      padding: 2rem 1rem;
+    }
+    table {
+      width: 90%;
+      margin: 2rem auto;
+      border-collapse: collapse;
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 0.75rem;
+      text-align: center;
+    }
+    th {
+      background-color: #ffb347;
+      color: white;
+    }
+    footer {
+      background-color: #333;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+      margin-top: 2rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Fashion Store Inventory</h1>
+    <p>Track sales, stock, and revenue</p>
+  </header>
+
+  <table>
+    <tr>
+      <th>Item</th>
+      <th>Category</th>
+      <th>Price ($)</th>
+      <th>Bought</th>
+      <th>Sold</th>
+      <th>In Stock</th>
+      <th>Revenue ($)</th>
+    </tr>
+    <?php while($row = $result->fetch_assoc()) { ?>
+    <tr>
+      <td><?= $row['item_name'] ?></td>
+      <td><?= $row['category'] ?></td>
+      <td><?= $row['price'] ?></td>
+      <td><?= $row['quantity_bought'] ?></td>
+      <td><?= $row['quantity_sold'] ?></td>
+      <td><?= $row['in_stock'] ?></td>
+      <td><?= $row['revenue'] ?></td>
+    </tr>
+    <?php } ?>
+  </table>
+
+  <footer>
+    <p>&copy; 2025 Fashion Store. All rights reserved.</p>
+  </footer>
+</body>
+</html>
+
